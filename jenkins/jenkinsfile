@@ -17,12 +17,14 @@ pipeline {
         }
         stage('Docker run'){
             steps {
-                try {
-                    sh 'docker stop test_container'
-                    sh 'docker rm test_container'
+                script{
+                    try {
+                        sh 'docker stop test_container'
+                        sh 'docker rm test_container'
+                    }
+                    echo "**** Starting container ****"
+                    sh 'docker run --name test_container test_image'
                 }
-                echo "**** Starting container ****"
-                sh 'docker run --name test_container test_image'
             }
         }
     }
