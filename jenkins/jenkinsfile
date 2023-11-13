@@ -6,18 +6,17 @@ pipeline {
         timestamps()
     }
     stages {
-        stage('Preparations'){
-            steps {
-                sh 'cd jenkins'
-            }
-        }
         stage('Docker build'){
-            steps{
-                sh 'docker build -t test_image .'
+            steps {
+                echo "**** Docker building ****"
+                dir('jenkins/'){
+                    sh 'docker build -t test_image .'
+                }
             }
         }
         stage('Docker run'){
-            steps{
+            steps {
+                echo "**** Starting container ****"
                 sh 'docker run --name test_container test_image'
             }
         }
