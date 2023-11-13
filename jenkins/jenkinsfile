@@ -11,11 +11,16 @@ pipeline {
                 echo "**** Docker building ****"
                 dir('jenkins/'){
                     sh 'docker build -t test_image .'
+                    // add steps to push iamge to hub 
                 }
             }
         }
         stage('Docker run'){
             steps {
+                try {
+                    sh 'docker stop test_container'
+                    sh 'docker rm test_container'
+                }
                 echo "**** Starting container ****"
                 sh 'docker run --name test_container test_image'
             }
