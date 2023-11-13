@@ -6,9 +6,19 @@ pipeline {
         timestamps()
     }
     stages {
-        stage('Docker build'){
+        stage('Preparations'){
             steps {
-                sh 'ssh 10.99.100.32 "hostname"'
+                sh 'cd jenkins'
+            }
+        }
+        stage('Docker build'){
+            steps{
+                sh 'docker build -t test_image .'
+            }
+        }
+        stage('Docker run'){
+            steps{
+                sh 'docker run --name test_container test_image'
             }
         }
     }
