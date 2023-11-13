@@ -21,7 +21,9 @@ pipeline {
                     try {
                         sh 'docker stop test_container'
                         sh 'docker rm test_container'
-                    }
+                    } catch (err) {
+                            echo: 'caught error: $err'
+                        }
                     echo "**** Starting container ****"
                     sh 'docker run --name test_container test_image'
                 }
