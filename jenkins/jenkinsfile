@@ -5,13 +5,17 @@ pipeline {
     options {
         timestamps()
     }
+
+    environment { 
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+    }
     stages {
         stage('Docker build'){
             steps {
                 echo "**** Docker building ****"
                 dir('jenkins/'){
                     sh 'docker build -t test_image .'
-                    // add steps to push iamge to hub 
+                    sh 'docker tag test_image:${VERSION}'
                 }
             }
         }
